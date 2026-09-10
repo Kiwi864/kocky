@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --stone:          #1c1a17;
+    --stone-mid:      #2e2b26;
+    --stone-border:   #4a453d;
+    --parchment:      #e8d9b5;
+    --parchment-dim:  #c8b885;
+    --ink:            #1a1208;
+    --ink-mid:        #3d3020;
+    --gold:           #c4932a;
+    --gold-dim:       #7a5c18;
+    --felt:           #1e3a16;
+    --felt-border:    #2d5222;
+    --blood:          #6b1515;
+    --ash:            #7a7060;
+}
+
+body {
+    font-family: 'Crimson Text', serif;
+    background-color: var(--stone);
+    min-height: 100vh;
+    color: var(--ink);
+}
+
+/* ── PAGES ───────────────────────────────────── */
+
+.page {
+    min-height: 100vh;
+    width: 100%;
+}
+
+#lobbyPage,
+#setupPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--stone);
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='80' height='1' fill='%23ffffff' fill-opacity='0.015'/%3E%3Crect x='0' y='0' width='1' height='80' fill='%23ffffff' fill-opacity='0.015'/%3E%3C/svg%3E");
+}
+
+/* ── PARCHMENT SCROLL ────────────────────────── */
+
+.scroll {
+    position: relative;
+    background-color: var(--parchment);
+    border: 3px solid var(--ink);
+    padding: 3rem 3.5rem;
+    text-align: center;
+    max-width: 460px;
+    width: 90%;
+    box-shadow: 8px 8px 0 var(--ink-mid);
+}
+
+.scroll::before {
+    content: '✦  ✦  ✦';
+    position: absolute;
+    top: 0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    letter-spacing: 0.6rem;
+    color: var(--gold-dim);
+    white-space: nowrap;
+}
+
+.scroll::after {
+    content: '✦  ✦  ✦';
+    position: absolute;
+    bottom: 0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    letter-spacing: 0.6rem;
+    color: var(--gold-dim);
+    white-space: nowrap;
+}
+
+.scroll h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 8px;
+    margin-bottom: 0.2rem;
+}
+
+.scroll h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+}
+
+.subtitle {
+    font-style: italic;
+    color: var(--ash);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+}
+
+#setupPage .scroll p {
+    font-style: italic;
+    color: var(--ash);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── INPUT ───────────────────────────────────── */
+
+#joinForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    background-color: #fffaef;
+    border: 2px solid var(--ink-mid);
+    border-bottom: 3px solid var(--ink);
+    color: var(--ink);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.15s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--gold-dim);
+    border-bottom-color: var(--gold);
+}
+
+input[type="text"]::placeholder {
+    color: var(--ash);
+    font-style: italic;
+}
+
+/* ── BUTTONS ─────────────────────────────────── */
+
+button {
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    letter-spacing: 1px;
+    border: none;
+    transition: box-shadow 0.08s, transform 0.08s;
+}
+
+#joinBtn {
+    width: 100%;
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+    background-color: var(--gold);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+}
+
+#joinBtn:hover  { box-shadow: 7px 7px 0 var(--ink); transform: translate(-2px, -2px); }
+#joinBtn:active { box-shadow: 1px 1px 0 var(--ink); transform: translate(4px, 4px); }
+
+.btn-stone {
+    background-color: var(--stone-mid);
+    color: var(--parchment);
+    border: 2px solid var(--stone-border);
+    padding: 0.75rem 1.6rem;
+    font-size: 0.9rem;
+    box-shadow: 5px 5px 0 var(--ink);
+}
+
+.btn-stone:hover  { box-shadow: 7px 7px 0 var(--ink); transform: translate(-2px, -2px); }
+.btn-stone:active { box-shadow: 1px 1px 0 var(--ink); transform: translate(4px, 4px); }
+
+.target-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    padding: 0.8rem 1.8rem;
+    font-size: 0.88rem;
+    background-color: var(--stone-mid);
+    color: var(--parchment);
+    border: 2px solid var(--stone-border);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.7);
+}
+
+.btn-action:hover  { box-shadow: 7px 7px 0 rgba(0,0,0,0.8); transform: translate(-2px, -2px); }
+.btn-action:active { box-shadow: 0   0   0 rgba(0,0,0,0.7); transform: translate(5px, 5px); }
+
+.btn-action.btn-gold {
+    background-color: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold-dim);
+    box-shadow: 5px 5px 0 var(--gold-dim);
+}
+
+.btn-action.btn-gold:hover  { box-shadow: 7px 7px 0 var(--gold-dim); transform: translate(-2px, -2px); }
+.btn-action.btn-gold:active { box-shadow: 0   0   0 var(--gold-dim); transform: translate(5px, 5px); }
+
+/* ── GAME PAGE ───────────────────────────────── */
+
+#gamePage {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+}
+
+/* Score ledger */
+
+#scorePanel {
+    background-color: var(--parchment);
+    border-right: 3px solid var(--ink);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow-y: auto;
+}
+
+#scorePanel h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: center;
+    letter-spacing: 4px;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px double var(--ink-mid);
+}
+
+#targetDisplay {
+    text-align: center;
+    font-style: italic;
+    color: var(--ash);
+    font-size: 0.85rem;
+}
+
+#scoreTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+#scoreTable th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+}
+
+#scoreTable td {
+    padding: 0.3rem 0.3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--parchment-dim);
+    color: var(--ink);
+}
+
+#scoreTable tbody tr:nth-child(even) {
+    background-color: #dfd0a8;
+}
+
+#scoreTable tfoot td {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--ink);
+    border-top: 3px double var(--ink-mid);
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+}
+
+/* Game table */
+
+#gameArea {
+    position: relative;
+    background-color: var(--felt);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    gap: 1.2rem;
+}
+
+#gameArea::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px solid var(--felt-border);
+    pointer-events: none;
+}
+
+#turnMsg {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--parchment);
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+#turnPointsMsg {
+    font-size: 1.1rem;
+    color: var(--parchment-dim);
+    min-height: 1.4rem;
+    text-align: center;
+}
+
+#diceRemainingMsg {
+    font-size: 0.85rem;
+    color: var(--ash);
+    text-align: center;
+}
+
+/* ── DICE — signature element ─────────────────── */
+
+#diceArea {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    min-height: 96px;
+}
+
+.die {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background-color: var(--parchment);
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 5px 5px 0 var(--ink-mid);
+    transition: box-shadow 0.08s ease, transform 0.08s ease, background-color 0.08s;
+}
+
+.die:hover:not(.inactive) {
+    box-shadow: 8px 8px 0 var(--ink-mid);
+    transform: translate(-2px, -2px);
+}
+
+/* Selected: pressed into the table */
+.die.selected {
+    background-color: var(--gold);
+    border-color: var(--gold-dim);
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--gold-dim);
+    transform: translate(3px, 3px);
+}
+
+.die.inactive {
+    cursor: default;
+    opacity: 0.6;
+}
+
+/* ── CONTROLS ────────────────────────────────── */
+
+#controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 52px;
+}
+
+/* ── WINNER ──────────────────────────────────── */
+
+#winnerBanner {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    padding: 1rem 2rem;
+    border: 2px solid var(--gold-dim);
+    background-color: var(--stone-mid);
+    letter-spacing: 2px;
+    animation: victoryPulse 1.6s ease-in-out infinite;
+    box-shadow: 5px 5px 0 var(--ink);
+}
+
+@keyframes victoryPulse {
+    0%, 100% { color: var(--gold);    border-color: var(--gold-dim); }
+    50%       { color: #f0c040; border-color: var(--gold); }
+}
+
+/* ── WAITING ─────────────────────────────────── */
+
+.waiting {
+    font-style: italic;
+    color: var(--ash);
+    margin-top: 1.2rem;
+    font-size: 1rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.45; }
+    50%       { opacity: 1; }
+}
+
+/* ── TOASTS ──────────────────────────────────── */
+
+#toastContainer {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.toast {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    padding: 0.7rem 1rem;
+    border: 2px solid;
+    max-width: 300px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-info    { background-color: var(--stone-mid); color: var(--parchment); border-color: var(--stone-border); }
+.toast-farkle  { background-color: var(--blood);     color: #f5c0c0;          border-color: #3a0a0a; }
+.toast-warning { background-color: var(--stone-mid); color: var(--gold);      border-color: var(--gold-dim); }
+.toast-error   { background-color: var(--blood);     color: #f5c0c0;          border-color: #3a0a0a; }

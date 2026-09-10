@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kocky — Farkle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toastContainer"></div>
+
+    <!-- LOBBY -->
+    <div id="lobbyPage" class="page">
+        <div class="scroll">
+            <h1>Kocky</h1>
+            <p class="subtitle">A Game of Farkle</p>
+            <div id="joinForm">
+                <input id="username" type="text" placeholder="Enter thy name" maxlength="20" />
+                <button id="joinBtn">Enter the Tavern</button>
+            </div>
+            <p id="waitingMsg" class="waiting" style="display:none">Awaiting thy opponent...</p>
+        </div>
+    </div>
+
+    <!-- SETUP -->
+    <div id="setupPage" class="page" style="display:none">
+        <div class="scroll">
+            <h2>Set the Stakes</h2>
+            <p id="setupMsg"></p>
+            <div class="target-buttons">
+                <button class="targetBtn btn-stone" data-target="2000">2,000</button>
+                <button class="targetBtn btn-stone" data-target="3000">3,000</button>
+                <button class="targetBtn btn-stone" data-target="5000">5,000</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME -->
+    <div id="gamePage" class="page" style="display:none">
+
+        <div id="scorePanel">
+            <h3>Ledger</h3>
+            <p id="targetDisplay"></p>
+            <table id="scoreTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th id="p1header"></th>
+                        <th id="p2header"></th>
+                    </tr>
+                </thead>
+                <tbody id="scoreBody"></tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total</td>
+                        <td id="p1total">0</td>
+                        <td id="p2total">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="gameArea">
+            <p id="turnMsg"></p>
+            <p id="turnPointsMsg"></p>
+            <p id="diceRemainingMsg"></p>
+            <div id="diceArea"></div>
+            <div id="controls">
+                <button id="rollBtn" class="btn-action" style="display:none">Roll the Dice</button>
+                <button id="keepBtn" class="btn-action" style="display:none">Keep Selected</button>
+                <button id="bankBtn" class="btn-action btn-gold" style="display:none">Bank Turn</button>
+            </div>
+            <div id="winnerBanner" style="display:none"></div>
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
