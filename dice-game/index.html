@@ -11,16 +11,49 @@
 
     <div id="toastContainer"></div>
 
-    <!-- LOBBY -->
-    <div id="lobbyPage" class="page">
-        <div class="scroll">
+    <!-- MENU -->
+    <div id="menuPage" class="page">
+        <div class="scroll scroll-wide">
             <h1>Kocky</h1>
             <p class="subtitle">A Game of Farkle</p>
-            <div id="joinForm">
-                <input id="username" type="text" placeholder="Enter thy name" maxlength="20" />
-                <button id="joinBtn">Enter the Tavern</button>
+
+            <input id="username" type="text" placeholder="Enter thy name" maxlength="20" />
+
+            <div class="menu-columns">
+                <div class="menu-col">
+                    <h2>Create a Lobby</h2>
+                    <input id="roomName" type="text" placeholder="Lobby name (optional)" maxlength="30" />
+                    <div class="visibility-toggle">
+                        <label><input type="radio" name="visibility" value="public" checked /> Public</label>
+                        <label><input type="radio" name="visibility" value="private" /> Private</label>
+                    </div>
+                    <button id="createBtn" class="btn-action btn-gold">Create Lobby</button>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <div class="menu-col">
+                    <h2>Join a Lobby</h2>
+                    <input id="joinCode" type="text" placeholder="Enter room code" maxlength="5" />
+                    <button id="joinCodeBtn" class="btn-action">Join by Code</button>
+
+                    <h3>Public Lobbies</h3>
+                    <ul id="publicRoomsList" class="room-list">
+                        <li class="room-list-empty">No public lobbies open</li>
+                    </ul>
+                </div>
             </div>
-            <p id="waitingMsg" class="waiting" style="display:none">Awaiting thy opponent...</p>
+        </div>
+    </div>
+
+    <!-- WAITING ROOM -->
+    <div id="waitingPage" class="page" style="display:none">
+        <div class="scroll">
+            <h2>The Tavern Awaits</h2>
+            <p id="roomNameDisplay"></p>
+            <p id="roomCodeDisplay" class="room-code" title="Click to copy"></p>
+            <p class="waiting">Awaiting thy opponent...</p>
+            <button id="leaveBtn" class="btn-stone">Leave Lobby</button>
         </div>
     </div>
 

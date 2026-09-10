@@ -2,11 +2,29 @@ const socket = io()
 let myId = null
 let gameState = null
 let selectedIndices = []
+let currentRoomCode = null
 
-socket.on('welcome', ({ yourId, state }) => {
+socket.on('welcome', ({ yourId }) => {
     myId = yourId
+})
+
+socket.on('publicRooms', (rooms) => {
+    renderPublicRooms(rooms)
+})
+
+socket.on('roomJoined', ({ code, state }) => {
+    currentRoomCode = code
     gameState = state
+    selectedIndices = []
     render()
+})
+
+socket.on('leftRoom', () => {
+    currentRoomCode = null
+    gameState = null
+    selectedIndices = []
+    showPage('menuPage')
+    socket.emit('getPublicRooms')
 })
 
 socket.on('gameState', (state) => {
@@ -58,11 +76,58 @@ function showToast(msg, type = 'info') {
 }
 
 function showPage(id) {
-    document.getElementById('lobbyPage').style.display = 'none'
+    document.getElementById('menuPage').style.display = 'none'
+    document.getElementById('waitingPage').style.display = 'none'
     document.getElementById('setupPage').style.display = 'none'
     document.getElementById('gamePage').style.display = 'none'
     const page = document.getElementById(id)
     page.style.display = id === 'gamePage' ? 'grid' : 'flex'
+}
+
+function renderPublicRooms(rooms) {
+    const list = document.getElementById('publicRoomsList')
+    list.innerHTML = ''
+
+    if (!rooms || rooms.length === 0) {
+        const li = document.createElement('li')
+        li.className = 'room-list-empty'
+        li.textContent = 'No public lobbies open'
+        list.appendChild(li)
+        return
+    }
+
+    rooms.forEach((room) => {
+        const li = document.createElement('li')
+        li.className = 'room-list-item'
+        li.innerHTML = `
+            <span class="room-list-name">${escapeHtml(room.name)}</span>
+            <span class="room-list-count">${room.playerCount}/2</span>
+            <button data-code="${room.code}">Join</button>
+        `
+        li.querySelector('button').addEventListener('click', () => joinRoom(room.code))
+        list.appendChild(li)
+    })
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div')
+    div.textContent = str
+    return div.innerHTML
+}
+
+function getPlayerName() {
+    const name = document.getElementById('username').value.trim()
+    if (!name) {
+        showToast('Enter thy name first', 'warning')
+        return null
+    }
+    return name
+}
+
+function joinRoom(code) {
+    const playerName = getPlayerName()
+    if (!playerName) return
+    socket.emit('joinRoom', { code, playerName })
 }
 
 function render() {
@@ -75,10 +140,9 @@ function render() {
     const isMyTurn = myId === currentPlayer
 
     if (phase === 'waiting') {
-        showPage('lobbyPage')
-        const joined = players.includes(myId)
-        document.getElementById('joinForm').style.display = joined ? 'none' : 'flex'
-        document.getElementById('waitingMsg').style.display = joined ? 'block' : 'none'
+        showPage('waitingPage')
+        document.getElementById('roomNameDisplay').textContent = gameState.name || ''
+        document.getElementById('roomCodeDisplay').textContent = currentRoomCode ? `Code: ${currentRoomCode}` : ''
         return
     }
 
@@ -176,14 +240,34 @@ function renderDice(roll, isMyTurn) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('joinBtn').addEventListener('click', () => {
-        const name = document.getElementById('username').value.trim()
-        if (!name) return
-        socket.emit('join', name)
+    socket.emit('getPublicRooms')
+
+    document.getElementById('createBtn').addEventListener('click', () => {
+        const playerName = getPlayerName()
+        if (!playerName) return
+        const roomName = document.getElementById('roomName').value.trim()
+        const isPublic = document.querySelector('input[name="visibility"]:checked').value === 'public'
+        socket.emit('createRoom', { playerName, roomName, isPublic })
     })
 
-    document.getElementById('username').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') document.getElementById('joinBtn').click()
+    document.getElementById('joinCodeBtn').addEventListener('click', () => {
+        const code = document.getElementById('joinCode').value.trim()
+        if (!code) return showToast('Enter a room code', 'warning')
+        joinRoom(code)
+    })
+
+    document.getElementById('joinCode').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('joinCodeBtn').click()
+    })
+
+    document.getElementById('leaveBtn').addEventListener('click', () => {
+        socket.emit('leaveRoom')
+    })
+
+    document.getElementById('roomCodeDisplay').addEventListener('click', () => {
+        if (!currentRoomCode) return
+        navigator.clipboard?.writeText(currentRoomCode)
+        showToast('Code copied to clipboard', 'info')
     })
 
     document.querySelectorAll('.targetBtn').forEach(btn => {
